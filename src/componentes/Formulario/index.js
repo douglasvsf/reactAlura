@@ -2,47 +2,58 @@ import "./index.css"
 import CampoTexto from '../CampoTexto';
 import Listasuspensa from "../Listasuspensa";
 import Botao from "../Botao";
+import { useState } from "react";
 
-function ComponenteForm() {
-    const obrigatorio = true
-    const listaCampos = [
-      { id: 1, nome: 'Nome', },
-      { id: 2, nome: 'Cargo' },
-      { id: 3, nome: 'Imagem' },
-    ];
-  
-    return (
-        listaCampos.map((elemento) => (
-          <CampoTexto obrigatorio={obrigatorio} key={elemento.id} label={elemento.nome} placeholder={"Digite seu " + elemento.nome}/>
-        ))
-    );
-  }
+const Formulario = (props) => {
 
-const Formulario = () => {
 
-    const labelLista = 'Time'
-    const textoBotao = 'Criar card'
-    const times = [
-        { id: 1, nome: 'Programação', },
-        { id: 2, nome: 'Front-End' },
-        { id: 3, nome: 'Data Science' },
-        { id: 4, nome: 'Devops' },
-        { id: 5, nome: 'Mobile' },
-    ]
+    const [nome, setNome] = useState('')
+    const [cargo, setCargo] = useState('')
+    const [imagem, setImagem] = useState('')
+    const [time, setTime] = useState('')
 
     const aoSalvar = (evento) => {
         evento.preventDefault() // para o reload da pagina
-        console.log('Formulario enviado com sucesso')
+        console.log('Formulario enviado com sucesso', nome, cargo, imagem, time)
+        props.aoColaboradorCadastrado({
+            nome,cargo,imagem,time
+        })
     }
 
     return (
         <section className="formulario">
             <form onSubmit={aoSalvar}>
                 <h2>Preencha os dados para criar o card do colaborador</h2>
-                <ComponenteForm />
-                <Listasuspensa label={labelLista} itens={times} />
+                <CampoTexto 
+                    obrigatorio={true} 
+                    label="Nome" 
+                    placeholder="Digite seu nome" 
+                    valor={nome}
+                    aoAlterado={valor => setNome(valor)}
+                />
+                <CampoTexto 
+                    obrigatorio={true} 
+                    label="Cargo" 
+                    placeholder="Digite seu cargo" 
+                    valor={cargo}
+                    aoAlterado={valor => setCargo(valor)}
+                />
+                <CampoTexto 
+                    obrigatorio={true} 
+                    label="Imagem" 
+                    placeholder="Digite seu imagem" 
+                    valor={imagem}
+                    aoAlterado={valor => setImagem(valor)}
+                />
+                <Listasuspensa 
+                    obrigatorio={true} 
+                    label="Time" 
+                    itens={props.times} 
+                    valor={time}
+                    aoAlterado={valor => setTime(valor)}
+                />
                 <Botao>
-                    {textoBotao}
+                    Criar card
                 </Botao>
             </form>
         </section>
