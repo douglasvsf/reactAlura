@@ -18,6 +18,13 @@ const Formulario = (props) => {
         props.aoColaboradorCadastrado({
             nome,cargo,imagem,time
         })
+
+        //Para limpar o formulario
+        setNome('')
+        setCargo('')
+        setImagem('')
+        setTime('')
+
     }
 
     return (
